@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextDatabase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="texts.xsd" Version="4.25.0">
+  <Languages>
+    <Language Id="GB" />
+  </Languages>
+  <Texts>
+    <TextGroup Id="Group1" />
+    <TextGroup Id="Unsorted">
+      <Text Id="__SingleUse_HKE8" Alignment="Center" TypographyId="Small">
+        <Translation Language="GB">New Text</Translation>
+      </Text>
+      <Text Id="__SingleUse_5TSL" Alignment="Center" TypographyId="Small">
+        <Translation Language="GB">New Text</Translation>
+      </Text>
+      <Text Id="__SingleUse_9KZJ" Alignment="Center" TypographyId="Small">
+        <Translation Language="GB">New Text</Translation>
+      </Text>
+      <Text Id="__SingleUse_X8WG" Alignment="Center" TypographyId="Small">
+        <Translation Language="GB">New Text</Translation>
+      </Text>
+      <Text Id="__SingleUse_1NOS" Alignment="Left" TypographyId="Small">
+        <Translation Language="GB">0000</Translation>
+      </Text>
+      <Text Id="__SingleUse_72IP" Alignment="Left" TypographyId="Small">
+        <Translation Language="GB">0000</Translation>
+      </Text>
+      <Text Id="__SingleUse_8ZTW" Alignment="Left" TypographyId="Small">
+        <Translation Language="GB">SCORE: &lt;value&gt; &#10;RECORD: &lt;value&gt;</Translation>
+      </Text>
+      <Text Id="__SingleUse_F7SW" Alignment="Center" TypographyId="Large">
+        <Translation Language="GB">PLAY</Translation>
+      </Text>
+      <Text Id="__SingleUse_GQT0" Alignment="Center" TypographyId="Large">
+        <Translation Language="GB">TETRIS&#10;INFINITY&#10;</Translation>
+      </Text>
+      <Text Id="__SingleUse_4DFF" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">0000&#10;</Translation>
+      </Text>
+      <Text Id="__SingleUse_6I3X" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">RECORD: &lt;value&gt;</Translation>
+      </Text>
+    </TextGroup>
+  </Texts>
+  <Typographies>
+    <Typography Id="Default" Font="verdana.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
+    <Typography Id="Large" Font="verdana.ttf" Size="40" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
+    <Typography Id="Small" Font="verdana.ttf" Size="10" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
+    <Typography Id="Typography_00" Font="verdana.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
+    <Typography Id="Typography_01" Font="verdana.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
+    <Typography Id="Typography_02" Font="verdana.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
+    <Typography Id="Typography_03" Font="verdana.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
+    <Typography Id="Typography_04" Font="verdana.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
+    <Typography Id="Typography_05" Font="verdana.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
+    <Typography Id="Typography_06" Font="verdana.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
+    <Typography Id="Typography_07" Font="verdana.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
+    <Typography Id="Typography_08" Font="verdana.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
+    <Typography Id="Typography_09" Font="verdana.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
+    <Typography Id="Typography_10" Font="verdana.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
+  </Typographies>
+</TextDatabase>
