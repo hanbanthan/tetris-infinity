@@ -141,6 +141,33 @@ static LCD_DrvTypeDef* LcdDrv;
 
 uint32_t I2c3Timeout = I2C3_TIMEOUT_MAX; /*<! Value of Timeout when I2C communication fails */
 uint32_t Spi5Timeout = SPI5_TIMEOUT_MAX; /*<! Value of Timeout when SPI communication fails */
+
+void TM_RNG_Init(void) {
+    /* Enable RNG clock source */
+    RCC->AHB2ENR |= RCC_AHB2ENR_RNGEN;
+
+    /* RNG Peripheral enable */
+    RNG->CR |= RNG_CR_RNGEN;
+}
+
+void TM_RNG_DeInit(void) {
+    /* Disable RNG peripheral */
+    RNG->CR &= ~RNG_CR_RNGEN;
+
+    /* Disable RNG clock source */
+    RCC->AHB2ENR &= ~RCC_AHB2ENR_RNGEN;
+}
+
+uint32_t TM_RNG_Get(void) {
+    /* Wait until one RNG number is ready */
+    while (!(RNG->SR & (RNG_SR_DRDY)));
+
+    /* Get a 32-bit Random number */
+    return RNG->DR;
+}
+
+uint32_t random_number;
+
 /* USER CODE END 0 */
 
 /**
@@ -160,7 +187,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-
+  TM_RNG_Init();
   /* USER CODE END Init */
 
   /* Configure the system clock */
