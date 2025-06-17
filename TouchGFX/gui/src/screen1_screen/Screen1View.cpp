@@ -11,131 +11,129 @@ extern osMessageQueueId_t SongQueueHandle;
 extern uint32_t random_number;
 extern int play;
 
-// Khai báo hàm Hardware RNG
-extern uint32_t TM_RNG_Get(void);
-
-//  Hardware RNG
-uint32_t getHardwareRandom()
+int random(int systick)
 {
-    return TM_RNG_Get();
+    static int a = 828172;
+    static int b = 552619;
+    static int md = 998244353;
+    return int(((long long)a * systick % md * systick + b) % md);
 }
 
-
 const int Tetromino::relativePositions[COUNT][ROTATION_STATES][TETROMINO_TILE_COUNT][2] = {
-	// I Tetromino
-	{
-		{{-1, 0}, {0, 0}, {1, 0}, {2, 0}}, // 0°
-		{{1, -1}, {1, 0}, {1, 1}, {1, 2}}, // 90°
-		{{-1, 1}, {0, 1}, {1, 1}, {2, 1}}, // 180°
-		{{0, -1}, {0, 0}, {0, 1}, {0, 2}}  // 270°
-	},
-	// O Tetromino (no rotation needed)
-	{
-		{{0, 0}, {1, 0}, {0, 1}, {1, 1}}, // 0°
-		{{0, 0}, {1, 0}, {0, 1}, {1, 1}}, // 90°
-		{{0, 0}, {1, 0}, {0, 1}, {1, 1}}, // 180°
-		{{0, 0}, {1, 0}, {0, 1}, {1, 1}}  // 270°
-	},
-	// T Tetromino
-	{
-		{{-1, 0}, {0, 0}, {1, 0}, {0, 1}},  // 0°
-		{{0, -1}, {0, 0}, {0, 1}, {1, 0}},  // 90°
-		{{0, -1}, {-1, 0}, {0, 0}, {1, 0}}, // 180°
-		{{-1, 0}, {0, -1}, {0, 0}, {0, 1}}  // 270°
-	},
-	// S Tetromino
-	{
-		{{0, 0}, {1, 0}, {-1, 1}, {0, 1}}, // 0°
-		{{0, -1}, {0, 0}, {1, 0}, {1, 1}}, // 90°
-		{{0, 0}, {1, 0}, {-1, 1}, {0, 1}}, // 180°
-		{{0, -1}, {0, 0}, {1, 0}, {1, 1}}  // 270°
-	},
-	// Z Tetromino
-	{
-		{{-1, 0}, {0, 0}, {0, 1}, {1, 1}}, // 0°
-		{{1, -1}, {0, 0}, {1, 0}, {0, 1}}, // 90°
-		{{-1, 0}, {0, 0}, {0, 1}, {1, 1}}, // 180°
-		{{1, -1}, {0, 0}, {1, 0}, {0, 1}}  // 270°
-	},
-	// J Tetromino
-	{
-		{{-1, 0}, {-1, 1}, {0, 0}, {1, 0}}, // 0°
-		{{0, -1}, {0, 0}, {0, 1}, {1, 1}},  // 90°
-		{{-1, 0}, {0, 0}, {1, 0}, {1, -1}}, // 180°
-		{{-1, -1}, {0, -1}, {0, 0}, {0, 1}} // 270°
-	},
-	// L Tetromino
-	{
-		{{-1, 0}, {0, 0}, {1, 0}, {1, 1}},   // 0°
-		{{0, -1}, {0, 0}, {0, 1}, {1, -1}},  // 90°
-		{{-1, -1}, {-1, 0}, {0, 0}, {1, 0}}, // 180°
-		{{-1, 1}, {0, -1}, {0, 0}, {0, 1}}   // 270°
-	}};
+    // I Tetromino
+    {
+        {{-1, 0}, {0, 0}, {1, 0}, {2, 0}}, // 0°
+        {{1, -1}, {1, 0}, {1, 1}, {1, 2}}, // 90°
+        {{-1, 1}, {0, 1}, {1, 1}, {2, 1}}, // 180°
+        {{0, -1}, {0, 0}, {0, 1}, {0, 2}}  // 270°
+    },
+    // O Tetromino (no rotation needed)
+    {
+        {{0, 0}, {1, 0}, {0, 1}, {1, 1}}, // 0°
+        {{0, 0}, {1, 0}, {0, 1}, {1, 1}}, // 90°
+        {{0, 0}, {1, 0}, {0, 1}, {1, 1}}, // 180°
+        {{0, 0}, {1, 0}, {0, 1}, {1, 1}}  // 270°
+    },
+    // T Tetromino
+    {
+        {{-1, 0}, {0, 0}, {1, 0}, {0, 1}},  // 0°
+        {{0, -1}, {0, 0}, {0, 1}, {1, 0}},  // 90°
+        {{0, -1}, {-1, 0}, {0, 0}, {1, 0}}, // 180°
+        {{-1, 0}, {0, -1}, {0, 0}, {0, 1}}  // 270°
+    },
+    // S Tetromino
+    {
+        {{0, 0}, {1, 0}, {-1, 1}, {0, 1}}, // 0°
+        {{0, -1}, {0, 0}, {1, 0}, {1, 1}}, // 90°
+        {{0, 0}, {1, 0}, {-1, 1}, {0, 1}}, // 180°
+        {{0, -1}, {0, 0}, {1, 0}, {1, 1}}  // 270°
+    },
+    // Z Tetromino
+    {
+        {{-1, 0}, {0, 0}, {0, 1}, {1, 1}}, // 0°
+        {{1, -1}, {0, 0}, {1, 0}, {0, 1}}, // 90°
+        {{-1, 0}, {0, 0}, {0, 1}, {1, 1}}, // 180°
+        {{1, -1}, {0, 0}, {1, 0}, {0, 1}}  // 270°
+    },
+    // J Tetromino
+    {
+        {{-1, 0}, {-1, 1}, {0, 0}, {1, 0}}, // 0°
+        {{0, -1}, {0, 0}, {0, 1}, {1, 1}},  // 90°
+        {{-1, 0}, {0, 0}, {1, 0}, {1, -1}}, // 180°
+        {{-1, -1}, {0, -1}, {0, 0}, {0, 1}} // 270°
+    },
+    // L Tetromino
+    {
+        {{-1, 0}, {0, 0}, {1, 0}, {1, 1}},   // 0°
+        {{0, -1}, {0, 0}, {0, 1}, {1, -1}},  // 90°
+        {{-1, -1}, {-1, 0}, {0, 0}, {1, 0}}, // 180°
+        {{-1, 1}, {0, -1}, {0, 0}, {0, 1}}   // 270°
+    }};
 
-// Hàm khởi tạo
+// Constructor
 Tetromino::Tetromino()
     : type(TetrominoType::I), posX(0), posY(0), tileSize(10), rotationState(0)
 {
-
 }
 
-// Khởi tạo tetromino với type và vị trí bắt đầu
+// Initialize the tetromino with type and starting position
 void Tetromino::initialize(TetrominoType initType, int startX, int startY, int size, TetriTileID freeBoxes)
 {
-	type = initType;
-	posX = startX;
-	posY = startY;
-	tileSize = size;
-	rotationState = 0;
+    type = initType;
+    posX = startX;
+    posY = startY;
+    tileSize = size;
+    rotationState = 0;
 
     // Định nghĩa màu sắc cho từng loại Tetromino (màu Tetris cổ điển)
-	uint32_t tetrominoColor, borderColor;
-	switch (initType) {
-		case TetrominoType::I:  // Cyan/Light Blue
-			tetrominoColor = touchgfx::Color::getColorFromRGB(0, 255, 255);
-			borderColor = touchgfx::Color::getColorFromRGB(0, 200, 200);
-			break;
-		case TetrominoType::O:  // Yellow
-			tetrominoColor = touchgfx::Color::getColorFromRGB(255, 255, 0);
-			borderColor = touchgfx::Color::getColorFromRGB(200, 200, 0);
-			break;
-		case TetrominoType::T:  // Purple/Magenta
-			tetrominoColor = touchgfx::Color::getColorFromRGB(128, 0, 128);
-			borderColor = touchgfx::Color::getColorFromRGB(100, 0, 100);
-			break;
-		case TetrominoType::S:  // Green
-			tetrominoColor = touchgfx::Color::getColorFromRGB(0, 255, 0);
-			borderColor = touchgfx::Color::getColorFromRGB(0, 200, 0);
-			break;
-		case TetrominoType::Z:  // Red
-			tetrominoColor = touchgfx::Color::getColorFromRGB(255, 0, 0);
-			borderColor = touchgfx::Color::getColorFromRGB(200, 0, 0);
-			break;
-		case TetrominoType::J:  // Blue
-			tetrominoColor = touchgfx::Color::getColorFromRGB(0, 0, 255);
-			borderColor = touchgfx::Color::getColorFromRGB(0, 0, 200);
-			break;
-		case TetrominoType::L:  // Orange
-			tetrominoColor = touchgfx::Color::getColorFromRGB(255, 165, 0);
-			borderColor = touchgfx::Color::getColorFromRGB(200, 130, 0);
-			break;
-		default:
-			tetrominoColor = touchgfx::Color::getColorFromRGB(128, 128, 128);
-			borderColor = touchgfx::Color::getColorFromRGB(100, 100, 100);
-			break;
-	}
+    uint32_t tetrominoColor, borderColor;
+    switch (initType)
+    {
+    case TetrominoType::I: // Cyan/Xanh nhạt
+        tetrominoColor = touchgfx::Color::getColorFromRGB(0, 255, 255);
+        borderColor = touchgfx::Color::getColorFromRGB(0, 200, 200);
+        break;
+    case TetrominoType::O: // Vàng
+        tetrominoColor = touchgfx::Color::getColorFromRGB(255, 255, 0);
+        borderColor = touchgfx::Color::getColorFromRGB(200, 200, 0);
+        break;
+    case TetrominoType::T: // Tím/Magenta
+        tetrominoColor = touchgfx::Color::getColorFromRGB(128, 0, 128);
+        borderColor = touchgfx::Color::getColorFromRGB(100, 0, 100);
+        break;
+    case TetrominoType::S: // Xanh lá
+        tetrominoColor = touchgfx::Color::getColorFromRGB(0, 255, 0);
+        borderColor = touchgfx::Color::getColorFromRGB(0, 200, 0);
+        break;
+    case TetrominoType::Z: // Đỏ
+        tetrominoColor = touchgfx::Color::getColorFromRGB(255, 0, 0);
+        borderColor = touchgfx::Color::getColorFromRGB(200, 0, 0);
+        break;
+    case TetrominoType::J: // Xanh dương
+        tetrominoColor = touchgfx::Color::getColorFromRGB(0, 0, 255);
+        borderColor = touchgfx::Color::getColorFromRGB(0, 0, 200);
+        break;
+    case TetrominoType::L: // Cam
+        tetrominoColor = touchgfx::Color::getColorFromRGB(255, 165, 0);
+        borderColor = touchgfx::Color::getColorFromRGB(200, 130, 0);
+        break;
+    default:
+        tetrominoColor = touchgfx::Color::getColorFromRGB(128, 128, 128);
+        borderColor = touchgfx::Color::getColorFromRGB(100, 100, 100);
+        break;
+    }
 
-	for (int i = 0; i < TETROMINO_TILE_COUNT; i++)
-	{
-		tiles[i] = freeBoxes.tiles[i];
-		tiles[i]->setColor(tetrominoColor);
-		tiles[i]->setBorderColor(borderColor);
-		tiles[i]->setBorderSize(2);
-	}
+    for (int i = 0; i < TETROMINO_TILE_COUNT; i++)
+    {
+        tiles[i] = freeBoxes.tiles[i];
+        tiles[i]->setColor(tetrominoColor);
+        tiles[i]->setBorderColor(borderColor);
+        tiles[i]->setBorderSize(2);
+    }
     updateTilePositions();
 }
 
-// Di chuyển tetromino theo hướng (dx, dy)
+// Move the tetromino by (dx, dy)
 void Tetromino::move(int dx, int dy)
 {
     posX += dx;
@@ -143,10 +141,10 @@ void Tetromino::move(int dx, int dy)
     updateTilePositions();
 }
 
-// Xoay tetromino theo chiều kim đồng hồ
+// Rotate the tetromino clockwise
 void Tetromino::rotate()
 {
-    // Không xoay tetromino O
+    // Do not rotate the O tetromino
     if (type == TetrominoType::O)
         return;
 
@@ -154,15 +152,15 @@ void Tetromino::rotate()
     updateTilePositions();
 }
 
-// Lấy con trỏ đến tile cụ thể
-touchgfx::BoxWithBorder* Tetromino::getTile(int index)
+// Get a pointer to a specific tile
+touchgfx::BoxWithBorder *Tetromino::getTile(int index)
 {
     if (index < 0 || index >= TETROMINO_TILE_COUNT)
         return nullptr;
     return tiles[index];
 }
 
-// Cập nhật vị trí tile dựa trên rotation hiện tại và vị trí trung tâm
+// Update tile positions based on current rotation and central position
 void Tetromino::updateTilePositions()
 {
     for (int i = 0; i < TETROMINO_TILE_COUNT; ++i)
@@ -174,7 +172,7 @@ void Tetromino::updateTilePositions()
     }
 }
 
-// Reset tetromino về trạng thái chưa khởi tạo
+// Reset tetromino to uninitialized state
 void Tetromino::reset()
 {
     type = TetrominoType::I;
@@ -188,8 +186,9 @@ void Tetromino::reset()
     }
 }
 
-// Lấy tiles hiện tại
-TetriTileID Tetromino::getTiles(){
+// Get current tiles
+TetriTileID Tetromino::getTiles()
+{
     TetriTileID freeBoxes;
     int freeBoxesCount = 0;
     for (int i = 0; i < getTileCount(); i++)
@@ -203,13 +202,13 @@ Screen1View::Screen1View()
     : tickCount(0),
       subTickCount(0),
       tetrominoActive(false),
-	  currentScore(0),
-	  timerCount(0)
+      currentScore(0),
+      timerCount(0)
 {
     for (int i = 0; i < MAX_BLOCKS; i++)
     {
         add(boxes[i]);
-        boxes[i].setVisible(false); // Khởi tạo tất cả boxes
+        boxes[i].setVisible(false); // Initialize all boxes
     }
     Unicode::snprintf(scoreBuffer1, SCOREBUFFER1_SIZE, "%u", currentScore);
     Unicode::snprintf(scoreBuffer2, SCOREBUFFER2_SIZE, "%u", highestScore);
@@ -222,7 +221,6 @@ Screen1View::Screen1View()
 
 Screen1View::~Screen1View()
 {
-
 }
 
 void Screen1View::setupScreen()
@@ -238,7 +236,8 @@ void Screen1View::tearDownScreen()
     Screen1ViewBase::tearDownScreen();
 }
 
-void Screen1View::gameOver(){
+void Screen1View::gameOver()
+{
     // Reset button
     RestartButton.setVisible(true);
     left.setVisible(false);
@@ -263,7 +262,7 @@ void Screen1View::gameOver(){
 
 void Screen1View::CreateGrid()
 {
-    // Tạo các đường lưới dọc
+    // Create vertical grid lines
     for (int i = 0; i < MAX_LINES; i++)
     {
         int x = 2 * step * (i + 1) - 1;
@@ -278,18 +277,20 @@ void Screen1View::CreateGrid()
     invalidate();
 }
 
-// Tạo loại tetromino ngẫu nhiên sử dụng hardware RNG
-TetrominoType Screen1View::getRandomTetrominoType()
-{
-    return tetrominoTypes[getHardwareRandom() % COUNT];
-}
-
 TetrominoType Screen1View::getRandomStarterTetrominoType()
 {
-    return getRandomTetrominoType();
+    return tetrominoTypes[random(timerCount + random_number * 3) % COUNT];
+    //	return tetrominoTypes[(timerCount + 3 * random_number + highestScore) % COUNT];
 }
 
-TetriTileID Screen1View::findFreeTiles(){
+TetrominoType Screen1View::getRandomTetrominoType()
+{
+    return tetrominoTypes[random(timerCount + random_number) % COUNT];
+    //    return tetrominoTypes[(tickCount + timerCount + highestScore + random_number) % COUNT];
+}
+
+TetriTileID Screen1View::findFreeTiles()
+{
     TetriTileID freeBoxes;
     int freeBoxesCount = 0;
     for (int i = 0; i < MAX_BLOCKS; i++)
@@ -297,7 +298,7 @@ TetriTileID Screen1View::findFreeTiles(){
         if (!boxes[i].isVisible())
         {
             freeBoxes.tiles[freeBoxesCount++] = &boxes[i];
-            boxes[i].setVisible(true); // Cập nhật active boxes
+            boxes[i].setVisible(true); // Update active boxes
             if (freeBoxesCount == TETROMINO_TILE_COUNT)
                 break;
         }
@@ -308,7 +309,7 @@ TetriTileID Screen1View::findFreeTiles(){
 void Screen1View::CreateNewTetromino(bool starter)
 {
     if (tetrominoActive || RestartButton.isVisible())
-        return; // Đã có tetromino đang hoạt động
+        return; // Already an active tetromino
 
     play = 1;
 
@@ -318,7 +319,7 @@ void Screen1View::CreateNewTetromino(bool starter)
     TetrominoType type = getRandomTetrominoType();
     if (starter)
     {
-        // Khởi tạo tetromino đầu tiên
+        // Initialize the first tetromino
         nextTetromino.initialize(getRandomStarterTetrominoType(), nextStartX, nextStartY, step, findFreeTiles());
     }
     // Reset currentTetromino
@@ -338,7 +339,7 @@ void Screen1View::CreateNewTetromino(bool starter)
     invalidate();
 }
 
-bool Screen1View::CheckCollision(int newX, int newY, Tetromino& tetromino)
+bool Screen1View::CheckCollision(int newX, int newY, Tetromino &tetromino)
 {
     for (int i = 0; i < tetromino.getTileCount(); ++i)
     {
@@ -346,21 +347,21 @@ bool Screen1View::CheckCollision(int newX, int newY, Tetromino& tetromino)
         int x = tile->getX();
         int y = tile->getY();
 
-        // Kiểm tra boundaries
+        // Check boundaries
         if (x < 0 || (x + tile->getWidth()) > maxX || (y + tile->getHeight()) > maxY)
         {
             return true;
         }
 
-        // Kiểm tra va chạm với các block đang hoạt động
+        // Check collision with active blocks
         for (int j = 0; j < MAX_BLOCKS; ++j)
         {
 
             if (!boxes[j].isVisible())
-                continue; // Bỏ qua những boxes không hoạt động
+                continue; // Skip not active boxes
             touchgfx::BoxWithBorder *active = &boxes[j];
             if (active == tile)
-                continue; // Bỏ qua những boxes giống nhau
+                continue; // Skip the same boxes
 
             if (!(x + tile->getWidth() <= active->getX() ||
                   active->getX() + active->getWidth() <= x ||
@@ -405,9 +406,9 @@ void Screen1View::RotateTetromino()
     // Check collision after rotation
     if (CheckCollision(currentTetromino.getPosX(), currentTetromino.getPosY(), currentTetromino))
     {
-        // Di chuyển ngược lại nếu phát hiện va chạm
+        // Rotate back if collision detected
         for (int i = 0; i < 3; ++i)
-        {
+        { // Rotate 3 more times to go back
             currentTetromino.rotate();
         }
     }
@@ -415,7 +416,8 @@ void Screen1View::RotateTetromino()
     invalidate();
 }
 
-void Screen1View::Move(){
+void Screen1View::Move()
+{
     uint8_t res;
     if (osMessageQueueGetCount(myQueue01Handle) > 0)
     {
@@ -449,14 +451,14 @@ void Screen1View::handleTickEvent()
     timerCount++;
     Move();
     if (subTickCount >= currentSubTickCount)
-    { // Tăng giá trị này để làm chậm lại
+    { // Increase this to slow down
         subTickCount = 0;
         tickCount++;
         if (!tetrominoActive)
             return;
         if (!MoveTetromino(0, step))
         {
-            // Cố định các block của tetromino hiện tại
+            // Fix the current tetromino blocks
             bool checkFullRows[MAX_ROWS] = {};
             bool checkErase = false;
 
@@ -470,7 +472,7 @@ void Screen1View::handleTickEvent()
             for (int i = 0; i < currentTetromino.getTileCount(); ++i)
             {
                 BoxWithBorder *tile = currentTetromino.getTile(i);
-                tile->setColor(touchgfx::Color::getColorFromRGB(200, 200, 200)); // Màu block đã cố định
+                tile->setColor(touchgfx::Color::getColorFromRGB(200, 200, 200)); // Fixed block color
                 int row = tile->getY() / step;
                 rows[row] += 1;
                 if (rows[row] == MAX_BLOCK_PER_ROW)
@@ -480,7 +482,7 @@ void Screen1View::handleTickEvent()
                 }
             }
 
-            // Xoá các hàng đầy
+            // Erase full rows
             if (checkErase)
                 eraseFullRows(checkFullRows);
 
@@ -488,7 +490,7 @@ void Screen1View::handleTickEvent()
             CreateNewTetromino(false);
         }
 
-        // Tăng tốc
+        // Speed up
         if (tickCount > updateSpeedTickCount)
         {
             tickCount = 0;
@@ -497,8 +499,9 @@ void Screen1View::handleTickEvent()
     }
 }
 
-void Screen1View::eraseFullRows(bool* checkFullRows){
-    uint8_t deltas[MAX_ROWS]; // Số lượng tile cần di chuyển xuống cho mỗi hàng
+void Screen1View::eraseFullRows(bool *checkFullRows)
+{
+    uint8_t deltas[MAX_ROWS]; // The number of tiles to move down for each row
     deltas[MAX_ROWS - 1] = 0;
     for (int i = MAX_ROWS - 2; i >= 0; i--)
     {
@@ -511,7 +514,7 @@ void Screen1View::eraseFullRows(bool* checkFullRows){
     TetriTileID nextTetrominoTiles = nextTetromino.getTiles();
     for (int i = 0; i < MAX_BLOCKS; i++)
     {
-        // Bỏ qua các boxes không hoạt động và nextTetrominoTiles
+        // Skip non-active boxes and nextTetrominoTiles
         if (!boxes[i].isVisible() || nextTetrominoTiles.checkEqual(&(boxes[i])))
             continue;
 
@@ -519,12 +522,12 @@ void Screen1View::eraseFullRows(bool* checkFullRows){
         touchgfx::BoxWithBorder *active = &boxes[i];
         uint8_t row = active->getY() / step;
         if (checkFullRows[row])
-        { // Cập nhật các boxes không hoạt động mới
+        { // Update new non-active boxes
             active->setVisible(false);
             rows[row]--;
         }
         if (active->isVisible())
-        { // Cập nhật các boxes hoạt động
+        { // Update active boxes
             active->moveTo(active->getX(), active->getY() + deltas[row] * step);
             rows[row]--;
             rows[row + deltas[row]]++;
@@ -550,7 +553,7 @@ void Screen1View::eraseFullRows(bool* checkFullRows){
 
 void Screen1View::MoveDown()
 {
-    // Nhanh chóng di chuyển xuống vị trí thấp nhất có thể
+    // Rapidly move down to the lowest possible position
     while (MoveTetromino(0, step))
     {
     }
