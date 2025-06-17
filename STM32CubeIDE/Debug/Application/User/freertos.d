@@ -1,5 +1,4 @@
-Application/User/freertos.o: \
- C:/TouchGFXProjects/tetris-infinity/Core/Src/freertos.c \
+Application/User/freertos.o: D:/tetris-infinity/Core/Src/freertos.c \
  ../../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h \
  ../../Core/Inc/FreeRTOSConfig.h \
  ../../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h \

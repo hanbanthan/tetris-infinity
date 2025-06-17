@@ -1,5 +1,5 @@
 Application/User/gui/HomePresenter.o: \
- C:/TouchGFXProjects/tetris-infinity/TouchGFX/gui/src/home_screen/HomePresenter.cpp \
+ D:/tetris-infinity/TouchGFX/gui/src/home_screen/HomePresenter.cpp \
  ../../TouchGFX/gui/include/gui/home_screen/HomeView.hpp \
  ../../TouchGFX/generated/gui_generated/include/gui_generated/home_screen/HomeViewBase.hpp \
  ../../TouchGFX/gui/include/gui/common/FrontendApplication.hpp \

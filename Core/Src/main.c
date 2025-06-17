@@ -20,6 +20,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "cmsis_os.h"
+#include "app_touchgfx.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -208,6 +209,9 @@ int main(void)
   MX_LTDC_Init();
   MX_DMA2D_Init();
   MX_TIM1_Init();
+  MX_TouchGFX_Init();
+  /* Call PreOsInit function */
+  MX_TouchGFX_PreOSInit();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -525,19 +529,19 @@ static void MX_SPI5_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN SPI5_Init 2 */
-  // Check if the board has the old or new revision of the gyroscope
-  // This tells if the board is revision D or newer
-  // It is used to handle the touch input correctly
-  const uint8_t READ_ID_CMD = 0x8F; // 0b10001111 = set read bit and register address of WHO_AM_I
-  uint8_t pdata = 0;
-  HAL_GPIO_WritePin(SPI5_NCS_GPIO_Port, SPI5_NCS_Pin, GPIO_PIN_RESET);
-  HAL_SPI_Transmit(&hspi5, &READ_ID_CMD, 1, 1000);
-  HAL_SPI_Receive(&hspi5, &pdata, 1, 1000);
-  HAL_GPIO_WritePin(SPI5_NCS_GPIO_Port, SPI5_NCS_Pin, GPIO_PIN_SET);
-  if (pdata == 0xD3) // 0b11010011
-  {
-    isRevD = 1;
-  }
+  // // Check if the board has the old or new revision of the gyroscope
+  // // This tells if the board is revision D or newer
+  // // It is used to handle the touch input correctly
+  // const uint8_t READ_ID_CMD = 0x8F; // 0b10001111 = set read bit and register address of WHO_AM_I
+  // uint8_t pdata = 0;
+  // HAL_GPIO_WritePin(SPI5_NCS_GPIO_Port, SPI5_NCS_Pin, GPIO_PIN_RESET);
+  // HAL_SPI_Transmit(&hspi5, &READ_ID_CMD, 1, 1000);
+  // HAL_SPI_Receive(&hspi5, &pdata, 1, 1000);
+  // HAL_GPIO_WritePin(SPI5_NCS_GPIO_Port, SPI5_NCS_Pin, GPIO_PIN_SET);
+  // if (pdata == 0xD3) // 0b11010011
+  // {
+  //   isRevD = 1;
+  // }
   /* USER CODE END SPI5_Init 2 */
 
 }

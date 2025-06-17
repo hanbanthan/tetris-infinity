@@ -26,7 +26,7 @@ HomeViewBase::HomeViewBase() :
     highScoreText.setTypedText(touchgfx::TypedText(T___SINGLEUSE_6I3X));
     add(highScoreText);
 
-    GameTitle.setXY(17, 29);
+    GameTitle.setXY(28, 27);
     GameTitle.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
     GameTitle.setLinespacing(0);
     GameTitle.setWideTextAction(WIDE_TEXT_WORDWRAP_ELLIPSIS);
