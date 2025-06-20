@@ -9,7 +9,7 @@ extern uint16_t highestScore;
 extern osMessageQueueId_t myQueue01Handle;
 extern osMessageQueueId_t SongQueueHandle;
 extern uint32_t random_number;
-extern int play;
+
 
 int random(int systick)
 {
@@ -311,7 +311,6 @@ void Screen1View::CreateNewTetromino(bool starter)
     if (tetrominoActive || RestartButton.isVisible())
         return; // Already an active tetromino
 
-    play = 1;
 
     int startX = maxX / 2;
     int startY = 0;
@@ -328,7 +327,6 @@ void Screen1View::CreateNewTetromino(bool starter)
     // GAMEOVER
     if (CheckCollision(startX, startY, currentTetromino))
     {
-        play = 0;
 
         Screen1View::gameOver();
         invalidate();
